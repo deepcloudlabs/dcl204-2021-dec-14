@@ -13,13 +13,16 @@ class AccountTest {
 	@DisplayName("create an account successfuly")
 	void createAccountSuccess() {
 		// 1. Test Setup/Fixture
-		Account acc 
+		Account acc
 		// 2. Call exercise method
-			= new Account("tr1", 10_000);
+				= new Account("tr1", 10_000);
 		// 3. Verification
+		assertAll(() -> {
 			assertEquals(10_000, acc.getBalance());
+		}, () -> {
 			assertEquals("tr1", acc.getIban());
-		// 4. Tear-down	
+		});
+		// 4. Tear-down
 	}
 
 	@Test
@@ -30,18 +33,20 @@ class AccountTest {
 		assertFalse(result);
 		assertEquals(10_000, acc.getBalance());
 	}
+
 	@Test
 	void withdraw_positiveAmountShouldSuccess() throws Exception {
 		Account acc = new Account("tr1", 2);
 		boolean result = acc.withdraw(1.1);
 		assertTrue(result);
-		assertEquals(0.9, acc.getBalance(),0.001);
+		assertEquals(0.9, acc.getBalance(), 0.001);
 	}
-	
+
 	@ParameterizedTest
 	@CsvFileSource(resources = "deposit.csv")
 	@DisplayName("deposit with positive amount should success")
-	void deposit_positiveAmountShouldSuccess(String iban,double balance,double amount,double newBalance) throws Exception {
+	void deposit_positiveAmountShouldSuccess(String iban, double balance, double amount, double newBalance)
+			throws Exception {
 		Account acc = new Account(iban, balance);
 		boolean result = acc.deposit(amount);
 		assertTrue(result);
