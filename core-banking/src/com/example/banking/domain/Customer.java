@@ -3,6 +3,7 @@ package com.example.banking.domain;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public final class Customer {
 	private final String identity;
@@ -34,7 +35,7 @@ public final class Customer {
 		accounts.put(account.getIban(), account);
 	}
 
-	public Account getAccount(String iban) {
-		return accounts.get(iban);
+	public Optional<Account> getAccount(String iban) {
+		return Optional.ofNullable(accounts.get(iban));
 	}
 }

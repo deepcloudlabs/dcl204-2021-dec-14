@@ -5,11 +5,12 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.example.banking.domain.Account;
 import com.example.banking.domain.CheckingAccount;
+import com.example.banking.domain.InsufficientBalanceException;
 
 @SuppressWarnings("unused")
 public class StudyPolymorphism {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InsufficientBalanceException {
 		Account acc;
 		if (ThreadLocalRandom.current().nextBoolean()) {
 			acc = new Account("tr1", 100_000);
@@ -17,7 +18,12 @@ public class StudyPolymorphism {
 			acc = new CheckingAccount("tr1", 100_000,5_000);
 		}
 		System.err.println(acc.getClass().getName());
-		acc.withdraw(10_000); 
+		try {
+			acc.withdraw(100_001); 			
+		}catch(InsufficientBalanceException e) {
+			System.err.println(e.getMessage());
+			throw e; // re-throw
+		}
 		Account []accounts = {
 				new Account("tr1", 100_000),
 				new CheckingAccount("tr1", 100_000,5_000),

@@ -30,8 +30,10 @@ public class AnimalApp {
 		for (Animal animal : animals) {
 			animal.walk();
 			animal.eat();
-			if (animal instanceof Pet) { // guard
-				((Pet) animal).play(); // safe from ClassCastException
+			if (animal instanceof Pet pet) { // guard
+				//Pet pet = (Pet) animal;
+				//pet.play(); // safe from ClassCastException
+				pet.play();
 			}
 		}
 		var numOfPets = 0L;

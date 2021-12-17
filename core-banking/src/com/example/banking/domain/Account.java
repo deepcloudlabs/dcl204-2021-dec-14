@@ -11,7 +11,8 @@ public class Account extends Object {
 	private final String iban; // reference, attribute/instance/heap/state, read-only variable
 	// default permission/package-private
 	double balance; // value, instance variable
-
+	private AccountStatus status;
+	
 	public Account(String iban /* reference, local */, final double balance /* value, local */) {
 		super(); // No-arg Constructor
 		this.iban = iban;
@@ -22,6 +23,15 @@ public class Account extends Object {
 		this(iban, 0.0);
 	}
 	
+
+	public AccountStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(AccountStatus status) {
+		this.status = status;
+	}
+
 	public String getIban() {
 		return iban;
 	}
@@ -30,24 +40,23 @@ public class Account extends Object {
 		return balance;
 	}
 
-	public boolean deposit(double amount) {
+	public void deposit(double amount) {
 		// validation
 		if (amount <= 0)
-			return false;
+			throw new IllegalArgumentException("Amount should be a positive value");
 		this.balance += amount;
-		return true;
 	}
 
-	public boolean withdraw(double amount) {
+	// Exception: i) Runtime Exception (Unchecked) ii) Business Exception (Checked)
+	public void withdraw(double amount) throws InsufficientBalanceException {
 		System.err.println("Account::withdraw");
 		// validation
 		if (amount <= 0)
-			return false;
+			throw new IllegalArgumentException("Amount should be a positive value");
 		// business rule
 		if (amount > balance)
-			return false;
+			throw new InsufficientBalanceException("Your balance does not cover your expenses", amount-balance);
 		this.balance -= amount;
-		return true;
 	}
 
 	@Override
