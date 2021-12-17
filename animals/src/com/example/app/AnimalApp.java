@@ -52,7 +52,7 @@ public class AnimalApp {
 		       .count();
 		var numOfPetLegs=
 		animals.stream()
-		       .filter(ifPet)
+		       .filter(AnimalUtility::isPet)
 		       //.mapToInt(animal -> animal.getLegs())
 		       .mapToInt(Animal::getLegs) // method reference
 		       .sum();
@@ -64,4 +64,10 @@ public class AnimalApp {
 		pets = animals.stream().filter(ifPet).toList(); // since java 16
 	   }
 
+}
+
+interface AnimalUtility {
+	static boolean isPet(Animal animal) { // since java 8
+		return animal instanceof Pet;
+	}
 }
